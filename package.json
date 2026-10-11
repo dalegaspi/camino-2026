@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "build:route": "node scripts/build-route.mjs",
     "build:photos": "node scripts/build-photos.mjs",
-    "prebuild": "npm run build:route && npm run build:photos"
+    "regen:all": "npm run build:route && npm run build:photos"
   },
   "devDependencies": {
     "@types/geojson": "^7946.0.16",

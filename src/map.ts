@@ -4,6 +4,7 @@ import L from "leaflet";
 import "leaflet.markercluster";
 import type { RouteGeoJSON, Photo } from "./types";
 import { waypoints } from "./waypoints";
+import { asset } from "./asset";
 
 export interface MapHandles {
   map: L.Map;
@@ -64,7 +65,7 @@ export function initMap(
   for (const photo of photos) {
     const icon = L.divIcon({
       className: "photo-pin",
-      html: `<div class="photo-pin__thumb" style="background-image:url('${photo.thumb}')"></div>`,
+      html: `<div class="photo-pin__thumb" style="background-image:url('${asset(photo.thumb)}')"></div>`,
       iconSize: [40, 40],
       iconAnchor: [20, 40],
     });

@@ -148,8 +148,8 @@ for (const file of files) {
     height: meta.height,
     kmFromSarria: Number(proj.kmFromSarria.toFixed(2)),
     offRouteKm: Number(proj.offRouteKm.toFixed(2)),
-    full: `/photos/full/${id}.jpg`,
-    thumb: `/photos/thumb/${id}.jpg`,
+    full: `photos/full/${id}.jpg`,
+    thumb: `photos/thumb/${id}.jpg`,
   });
 
   console.log(`  ok: ${file} -> ${id} (km ${proj.kmFromSarria.toFixed(1)})`);

@@ -28,6 +28,7 @@ dist-ssr
 !/photos/.gitkeep
 !/photos/captions.json
 
-# Generated at build time (npm run build:photos) -- personal photo content
-/public/photos/
-/src/data/photos.json
+# public/photos/ and src/data/photos.json ARE committed on purpose: this is
+# a GitHub Pages project (served from the repo itself at build time), so the
+# resized derivatives the site actually displays need to live in the repo.
+# Only the raw originals above stay out.

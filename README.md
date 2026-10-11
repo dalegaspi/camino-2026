@@ -71,3 +71,34 @@ base filename), the build keeps the HEIC original and skips the duplicate.
 This is a fully static site after `npm run build` (just `dist/`) — Netlify,
 GitHub Pages, Vercel, or Cloudflare Pages all work for free, and OSM tiles
 need no server-side secrets or config.
+
+### This repo: GitHub Pages at dalegaspi.github.io/camino-2026
+
+`.github/workflows/deploy.yml` builds and deploys to GitHub Pages
+automatically on every push to `main` (also runnable manually from the
+Actions tab). A few things specific to this setup:
+
+- **Repo must be public.** Free-tier GitHub Pages doesn't support private
+  repos.
+- **`public/photos/` and `src/data/photos.json` are committed**, not
+  gitignored like the rest of the generated data — GitHub Pages serves
+  straight from the repo, so the resized photo derivatives the site
+  actually displays have to live there. Only the raw originals in
+  `photos/` stay out of the repo.
+- **`vite.config.ts`** sets `base: '/camino-2026/'` for production builds
+  (dev stays at `/`), and all photo URLs are resolved through
+  `src/asset.ts` against that base — so the subpath works without any
+  hardcoded root-absolute paths.
+- The CI build runs plain `npm run build` (`tsc && vite build`) — it
+  deliberately does **not** re-run `build:photos`, since CI never has the
+  raw originals (gitignored) and would wipe the committed manifest. If you
+  add/remove photos locally, run `npm run build:photos` yourself, commit
+  the resulting `public/photos/` + `src/data/photos.json` changes, and push
+  — the workflow picks up the committed data as-is. (`npm run regen:all`
+  reruns both the route and photo generators together, if needed.)
+
+First-time setup (already done for this repo, listed for reference):
+```bash
+gh repo edit <owner>/<repo> --visibility public --accept-visibility-change-consequences
+gh api repos/<owner>/<repo>/pages -X POST -f build_type=workflow
+```

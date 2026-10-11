@@ -4,6 +4,7 @@ import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 import "./style.css";
 import { initMap } from "./map";
 import { createLightbox } from "./lightbox";
+import { asset } from "./asset";
 import type { Photo, RouteGeoJSON } from "./types";
 import routeData from "./data/route.json";
 import photoData from "./data/photos.json";
@@ -55,7 +56,7 @@ function renderSidebar(photos: Photo[], onSelect: (p: Photo) => void) {
         })
       : "";
     li.innerHTML = `
-      <img class="photo-list__thumb" src="${photo.thumb}" loading="lazy" alt="" />
+      <img class="photo-list__thumb" src="${asset(photo.thumb)}" loading="lazy" alt="" />
       <div class="photo-list__text">
         <div class="photo-list__caption">${photo.caption ?? photo.file}</div>
         <div class="photo-list__sub">${date ? date + " · " : ""}km ${photo.kmFromSarria.toFixed(1)}</div>

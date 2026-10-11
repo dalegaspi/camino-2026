@@ -1,4 +1,5 @@
 import type { Photo } from "./types";
+import { asset } from "./asset";
 
 export function createLightbox(): {
   open: (photo: Photo) => void;
@@ -35,7 +36,7 @@ export function createLightbox(): {
   });
 
   function open(photo: Photo) {
-    img.src = photo.full;
+    img.src = asset(photo.full);
     img.alt = photo.caption ?? photo.file;
     caption.textContent = photo.caption ?? photo.file;
     const date = photo.takenAt
