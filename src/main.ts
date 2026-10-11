@@ -29,7 +29,10 @@ app.innerHTML = `
 
 const sidebar = document.getElementById("sidebar")!;
 const mapEl = document.getElementById("map")!;
-const lightbox = createLightbox();
+const lightbox = createLightbox(photos, (photo) => {
+  focusPhoto(photo);
+  highlightListItem(photo.id);
+});
 
 function renderSidebar(photos: Photo[], onSelect: (p: Photo) => void) {
   if (photos.length === 0) {

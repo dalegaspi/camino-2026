@@ -209,6 +209,33 @@ body,
   line-height: 1;
 }
 
+.lightbox__nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 2.6rem;
+  cursor: pointer;
+  z-index: 1;
+  line-height: 1;
+  padding: 0.25rem 0.6rem;
+  opacity: 0.85;
+}
+
+.lightbox__nav:hover {
+  opacity: 1;
+}
+
+.lightbox__nav--prev {
+  left: 0.25rem;
+}
+
+.lightbox__nav--next {
+  right: 0.25rem;
+}
+
 @media (max-width: 720px) {
   .layout {
     flex-direction: column;
