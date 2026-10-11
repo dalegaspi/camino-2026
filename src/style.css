@@ -171,6 +171,13 @@ body,
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  perspective: 1200px;
+}
+
+.lightbox__card {
+  display: flex;
+  flex-direction: column;
+  backface-visibility: hidden;
 }
 
 .lightbox__img {
@@ -179,6 +186,68 @@ body,
   object-fit: contain;
   display: block;
   margin: 0 auto;
+}
+
+/* Animista: Entrances > Flip In > flip-in-ver-right */
+.flip-in-ver-right {
+  -webkit-animation: flip-in-ver-right 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  animation: flip-in-ver-right 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+@-webkit-keyframes flip-in-ver-right {
+  0% {
+    -webkit-transform: rotateY(80deg);
+    transform: rotateY(80deg);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: rotateY(0);
+    transform: rotateY(0);
+    opacity: 1;
+  }
+}
+@keyframes flip-in-ver-right {
+  0% {
+    -webkit-transform: rotateY(80deg);
+    transform: rotateY(80deg);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: rotateY(0);
+    transform: rotateY(0);
+    opacity: 1;
+  }
+}
+
+/* Animista: Exits > Flip Out > flip-out-ver-left */
+.flip-out-ver-left {
+  -webkit-animation: flip-out-ver-left 0.45s cubic-bezier(0.55, 0.085, 0.68, 0.53) both;
+  animation: flip-out-ver-left 0.45s cubic-bezier(0.55, 0.085, 0.68, 0.53) both;
+}
+
+@-webkit-keyframes flip-out-ver-left {
+  0% {
+    -webkit-transform: rotateY(0);
+    transform: rotateY(0);
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: rotateY(-70deg);
+    transform: rotateY(-70deg);
+    opacity: 0;
+  }
+}
+@keyframes flip-out-ver-left {
+  0% {
+    -webkit-transform: rotateY(0);
+    transform: rotateY(0);
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: rotateY(-70deg);
+    transform: rotateY(-70deg);
+    opacity: 0;
+  }
 }
 
 .lightbox__meta {
