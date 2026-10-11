@@ -4,8 +4,11 @@
 //
 // Usage: npm run build:photos
 //
-// Drop your original photos into ./photos (jpg/jpeg/png — HEIC must be
-// converted first, see README). Optionally add ./photos/captions.json:
+// Drop your original photos into ./photos (jpg/jpeg/png/heic — HEIC is
+// decoded directly via sharp/libvips, no manual conversion needed). Videos
+// (.mov/.mp4/etc) are ignored. If the same shot exists as both HEIC and a
+// JPEG export (same base filename), the HEIC original is used and the JPEG
+// duplicate is skipped. Optionally add ./photos/captions.json:
 //   { "IMG_1234.jpg": "First views of Portomarín" }
 import { readFileSync, writeFileSync, mkdirSync, readdirSync, existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
@@ -66,14 +69,33 @@ function slugify(name) {
     .replace(/(^-|-$)/g, "");
 }
 
-const exts = new Set([".jpg", ".jpeg", ".png"]);
-const files = readdirSync(photosDir).filter((f) =>
+const exts = new Set([".jpg", ".jpeg", ".png", ".heic"]);
+const allMatching = readdirSync(photosDir).filter((f) =>
   exts.has(path.extname(f).toLowerCase()),
 );
 
+// Dedupe same-shot HEIC+JPEG pairs (same base filename, e.g. IMG_1234.HEIC
+// and IMG_1234.jpeg exported from the same Live Photo): prefer the HEIC
+// original.
+const byBase = new Map();
+for (const f of allMatching) {
+  const base = f.replace(/\.[^.]+$/, "");
+  const ext = path.extname(f).toLowerCase();
+  const existing = byBase.get(base);
+  if (!existing) {
+    byBase.set(base, f);
+  } else if (ext === ".heic" && path.extname(existing).toLowerCase() !== ".heic") {
+    console.log(`  dedupe: keeping ${f}, skipping duplicate ${existing}`);
+    byBase.set(base, f);
+  } else {
+    console.log(`  dedupe: keeping ${existing}, skipping duplicate ${f}`);
+  }
+}
+const files = [...byBase.values()].sort();
+
 if (files.length === 0) {
   console.log(
-    `No photos found in ${photosDir}. Drop geotagged jpg/jpeg/png files there and re-run.`,
+    `No photos found in ${photosDir}. Drop geotagged jpg/jpeg/png/heic files there and re-run.`,
   );
   writeFileSync(path.join(dataOutDir, "photos.json"), "[]\n");
   process.exit(0);

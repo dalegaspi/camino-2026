@@ -61,10 +61,10 @@ manually to `src/data/photos.json`.
 
 ### HEIC photos
 
-`sharp` (used for resizing) doesn't read HEIC without extra system libs.
-Convert iPhone HEIC photos to JPEG first (Preview.app "Export", or
-`sips -s format jpeg IMG_1234.HEIC --out IMG_1234.jpg` on macOS) before
-dropping them into `photos/`.
+HEIC is decoded directly via `sharp`/libvips, no manual conversion needed --
+just drop iPhone `.HEIC` files straight into `photos/` alongside your jpg/png
+ones. If the same shot exists as both `.HEIC` and an exported `.jpeg` (same
+base filename), the build keeps the HEIC original and skips the duplicate.
 
 ## Deploying
 
