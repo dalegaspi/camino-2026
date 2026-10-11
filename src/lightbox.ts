@@ -3,6 +3,9 @@ import { asset } from "./asset";
 
 const FLIP_IN = "flip-in-ver-right";
 const FLIP_OUT = "flip-out-ver-left";
+const FADE_IN = "fade-in";
+const FADE_OUT = "fade-out";
+const ALL_ANIM_CLASSES = [FLIP_IN, FLIP_OUT, FADE_IN, FADE_OUT];
 
 export function createLightbox(
   photos: Photo[],
@@ -34,23 +37,37 @@ export function createLightbox(
   const img = el.querySelector(".lightbox__img") as HTMLImageElement;
   const caption = el.querySelector(".lightbox__caption") as HTMLElement;
   const sub = el.querySelector(".lightbox__sub") as HTMLElement;
+  const closeBtn = el.querySelector(".lightbox__close") as HTMLButtonElement;
   const prevBtn = el.querySelector(".lightbox__nav--prev") as HTMLButtonElement;
   const nextBtn = el.querySelector(".lightbox__nav--next") as HTMLButtonElement;
+  const chromeButtons = [closeBtn, prevBtn, nextBtn];
 
   let currentIndex = -1;
 
-  // Remove any flip class, force a reflow, then add the given one so the
-  // CSS animation reliably restarts even if the same class was just used.
-  function playFlip(className: string, onDone?: () => void) {
-    card.classList.remove(FLIP_IN, FLIP_OUT);
-    void card.offsetWidth;
-    card.classList.add(className);
+  // Remove any animation class, force a reflow, then add the given one so
+  // the CSS animation reliably restarts even if the same class was just
+  // used (fill-mode: both would otherwise leave it "stuck").
+  function playAnim(target: HTMLElement, className: string, onDone?: () => void) {
+    target.classList.remove(...ALL_ANIM_CLASSES);
+    void target.offsetWidth;
+    target.classList.add(className);
     const handler = () => {
-      card.removeEventListener("animationend", handler);
-      card.classList.remove(className);
+      target.removeEventListener("animationend", handler);
+      target.classList.remove(className);
       onDone?.();
     };
-    card.addEventListener("animationend", handler, { once: true });
+    target.addEventListener("animationend", handler, { once: true });
+  }
+
+  function playCard(className: string, onDone?: () => void) {
+    playAnim(card, className, onDone);
+  }
+
+  // Close/prev/next buttons fade out/in in sync with the card's flip, so
+  // they don't visibly "jump" when the card's size changes between photos
+  // of different aspect ratios.
+  function playChrome(className: string) {
+    chromeButtons.forEach((btn) => playAnim(btn, className));
   }
 
   function applyContent(photo: Photo) {
@@ -74,23 +91,28 @@ export function createLightbox(
 
     const alreadyOpen = el.classList.contains("lightbox--open");
     if (animateTransition && alreadyOpen) {
-      // Current photo flips out, then the new one flips in.
-      playFlip(FLIP_OUT, () => {
+      // Current photo flips out, then the new one flips in; chrome buttons
+      // fade out/in alongside, at the same cadence.
+      playCard(FLIP_OUT, () => {
         applyContent(photo);
-        playFlip(FLIP_IN);
+        playCard(FLIP_IN);
+        playChrome(FADE_IN);
       });
+      playChrome(FADE_OUT);
     } else {
       applyContent(photo);
       el.classList.add("lightbox--open");
-      playFlip(FLIP_IN);
+      playCard(FLIP_IN);
+      playChrome(FADE_IN);
     }
   }
 
   function close() {
     if (!el.classList.contains("lightbox--open")) return;
-    playFlip(FLIP_OUT, () => {
+    playCard(FLIP_OUT, () => {
       el.classList.remove("lightbox--open");
     });
+    playChrome(FADE_OUT);
   }
 
   function go(delta: number) {

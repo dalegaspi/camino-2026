@@ -250,6 +250,54 @@ body,
   }
 }
 
+/* Animista: Entrances > Fade In > fade-in (duration scaled from the 1.2s
+   default to 0.45s so it stays in sync with the card's flip-in-ver-right) */
+.fade-in {
+  -webkit-animation: fade-in 0.45s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+  animation: fade-in 0.45s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+}
+
+@-webkit-keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Animista: Exits > Fade Out > fade-out (duration scaled from the 1s
+   default to 0.45s so it stays in sync with the card's flip-out-ver-left) */
+.fade-out {
+  -webkit-animation: fade-out 0.45s cubic-bezier(0, 0, 0.58, 1) both;
+  animation: fade-out 0.45s cubic-bezier(0, 0, 0.58, 1) both;
+}
+
+@-webkit-keyframes fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 .lightbox__meta {
   color: #fff;
   padding: 0.75rem 1rem;
