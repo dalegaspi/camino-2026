@@ -15,7 +15,10 @@ const photos = photoData as unknown as Photo[];
 const app = document.getElementById("app")!;
 app.innerHTML = `
   <header class="topbar">
-    <h1>Camino Francés <span class="topbar__sub">Sarria → Santiago de Compostela</span></h1>
+    <h1>
+      <img class="topbar__shell" src="${asset("shell.svg")}" alt="" aria-hidden="true" />
+      Camino Francés <span class="topbar__sub">Sarria → Santiago de Compostela</span>
+    </h1>
     <div class="topbar__stats">
       <strong>${route.properties.totalKm.toFixed(1)} km</strong>
       <span>${photos.length} photo${photos.length === 1 ? "" : "s"}</span>

@@ -33,18 +33,26 @@ export function initMap(
     subdomains: "abc",
   }).addTo(map);
 
+  // The route is drawn in the classic Camino de Santiago colours: a yellow
+  // line (the painted trail markers) cased in blue for contrast against the
+  // basemap, echoing the blue-and-yellow waymarker signs along the Way.
+  const CAMINO_BLUE = "#0035ad";
+  const CAMINO_YELLOW = "#ffcc00";
+  L.geoJSON(route, {
+    style: { color: CAMINO_BLUE, weight: 7, opacity: 0.9, lineCap: "round" },
+  }).addTo(map);
   const routeLayer = L.geoJSON(route, {
-    style: { color: "#c0392b", weight: 4, opacity: 0.85 },
+    style: { color: CAMINO_YELLOW, weight: 3.5, opacity: 1, lineCap: "round" },
   }).addTo(map);
 
   // Stage waypoint pins (towns at each stage end).
   for (const wp of waypoints) {
     const isEndpoint = wp.kind !== "stage";
     L.circleMarker([wp.lat, wp.lng], {
-      radius: isEndpoint ? 7 : 5,
-      color: "#1b1b1b",
-      weight: 1.5,
-      fillColor: isEndpoint ? "#2d6a4f" : "#ffffff",
+      radius: isEndpoint ? 8 : 5,
+      color: CAMINO_BLUE,
+      weight: 2,
+      fillColor: isEndpoint ? CAMINO_YELLOW : "#ffffff",
       fillOpacity: 1,
     })
       .addTo(map)

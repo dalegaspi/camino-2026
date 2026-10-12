@@ -1,5 +1,7 @@
 :root {
-  --accent: #c0392b;
+  --camino-blue: #0035ad;
+  --camino-yellow: #ffcc00;
+  --accent: var(--camino-yellow);
   --ink: #1b1b1b;
   --paper: #faf7f2;
   font-family:
@@ -32,15 +34,25 @@ body,
   justify-content: space-between;
   gap: 1rem;
   padding: 0.75rem 1.25rem;
-  background: var(--ink);
+  background: var(--camino-blue);
   color: #fff;
   flex-wrap: wrap;
+  border-bottom: 3px solid var(--camino-yellow);
 }
 
 .topbar h1 {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
   font-size: 1.1rem;
   margin: 0;
   font-weight: 600;
+}
+
+.topbar__shell {
+  height: 1.6rem;
+  width: auto;
+  display: block;
 }
 
 .topbar__sub {
@@ -54,7 +66,11 @@ body,
   display: flex;
   gap: 1rem;
   font-size: 0.9rem;
-  opacity: 0.9;
+  opacity: 0.95;
+}
+
+.topbar__stats strong {
+  color: var(--camino-yellow);
 }
 
 .layout {
@@ -99,11 +115,12 @@ body,
 }
 
 .photo-list__item:hover {
-  background: #f6f1e8;
+  background: #eef2fb;
 }
 
 .photo-list__item--active {
-  background: #fdece9;
+  background: #fff6cc;
+  box-shadow: inset 3px 0 0 var(--camino-blue);
 }
 
 .photo-list__thumb {
@@ -135,7 +152,7 @@ body,
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  border: 2px solid #fff;
+  border: 2px solid var(--camino-yellow);
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
   background-size: cover;
   background-position: center;
@@ -174,7 +191,7 @@ body,
 .lightbox__card {
   display: flex;
   flex-direction: column;
-  background: #111;
+  background: var(--camino-blue);
   border-radius: 8px;
   overflow: hidden;
   backface-visibility: hidden;
@@ -301,6 +318,7 @@ body,
 .lightbox__meta {
   color: #fff;
   padding: 0.75rem 1rem;
+  border-top: 4px solid var(--camino-yellow);
 }
 
 .lightbox__caption {
@@ -319,7 +337,7 @@ body,
   right: 0.75rem;
   background: none;
   border: none;
-  color: #fff;
+  color: var(--camino-yellow);
   font-size: 1.8rem;
   cursor: pointer;
   z-index: 1;
@@ -332,7 +350,7 @@ body,
   transform: translateY(-50%);
   background: none;
   border: none;
-  color: #fff;
+  color: var(--camino-yellow);
   font-size: 2.6rem;
   cursor: pointer;
   z-index: 1;
